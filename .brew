@@ -31,6 +31,7 @@ brew install php54
 brew install ack
 brew install git
 brew install lynx
+brew install mobile-shell
 brew install node
 brew install rename
 brew install tree
