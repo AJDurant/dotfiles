@@ -1,4 +1,4 @@
-# Make vim the default editor
+# Make st2 the default editor
 export EDITOR="subl"
 
 # Larger bash history (allow 32³ entries; default is 500)
@@ -22,9 +22,3 @@ export LESS_TERMCAP_md="$ORANGE"
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
-
-# Always enable colored `grep` output
-export GREP_OPTIONS="--color=auto"
-
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
