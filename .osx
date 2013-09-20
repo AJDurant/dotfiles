@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ~/.osx — http://mths.be/osx
 
@@ -39,6 +39,7 @@ defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # Always show scrollbars
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+# Possible values: `WhenScrolling`, `Automatic` and `Always`
 
 # Disable smooth scrolling
 # (Uncomment if you’re on an older Mac that messes up the animation)
@@ -294,9 +295,8 @@ sudo nvram boot-args="mbasd=1"
 chflags nohidden ~/Library
 
 # Remove Dropbox’s green checkmark icons in Finder
-#file=/Applications/Dropbox.app/Contents/Resources/check.icns
+#file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
 #[ -e "$file" ] && mv -f "$file" "$file.bak"
-#unset file
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #

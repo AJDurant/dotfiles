@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Make sure we’re using the latest Homebrew
 brew update
@@ -21,20 +21,38 @@ brew install wget --enable-iri
 brew tap homebrew/dupes
 brew install homebrew/dupes/grep --default-names
 brew tap josegonzalez/homebrew-php
-brew install php54
+brew install php55
 
 # These two formulae didn’t work well last time I tried them:
 #brew install homebrew/dupes/vim
 #brew install homebrew/dupes/screen
 
-# Install everything else
+# Install other useful binaries
 brew install ack
 brew install git
 brew install lynx
 brew install mobile-shell
 brew install node
+brew install pigz
 brew install rename
 brew install tree
+brew install zopfli
 
+
+# Install native apps
+brew tap phinze/homebrew-cask
+brew install brew-cask
+
+function installcask() {
+	brew cask install "${@}" 2> /dev/null
+}
+
+installcask google-chrome
+installcask google-chrome-canary
+installcask iterm2
+installcask sublime-text
+installcask transmission
+installcask virtualbox
+installcask vlc
 # Remove outdated versions from the cellar
 brew cleanup
