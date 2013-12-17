@@ -1,5 +1,5 @@
-# Make vim the default editor
-export EDITOR="subl"
+# Make ST the default editor
+export EDITOR="subl -w"
 
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768
@@ -26,5 +26,28 @@ export MANPAGER="less -X"
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
 
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+# Setup Virtual Env Wrapper
+export VIRTUALENV_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
+export WORKON_HOME=$HOME/.virtualenvs
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+export PIP_RESPECT_VIRTUALENV=true
+export PROJECT_HOME=$HOME/Dev/py
+
+# OS specific
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        # ...
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+	# Link Homebrew casks in `/Applications` rather than `~/Applications`
+	export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+        # ...
+elif [[ "$OSTYPE" == "win32" ]]; then
+        # ...
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+        # ...
+else
+        # Unknown.
+fi

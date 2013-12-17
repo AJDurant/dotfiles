@@ -1,0 +1,10 @@
+BoldAsFont=no
+ForegroundColour=0,255,0
+FontHeight=9
+Locale=en_GB
+Charset=UTF-8
+BellSound=yes
+BellFlash=yes
+Transparency=medium
+Term=xterm-256color
+CopyOnSelect=no

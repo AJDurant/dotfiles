@@ -1,2 +1,5 @@
 # Disable the startup message
 startup_message off
+term screen-256color
+defc1 off
+defutf8 on
