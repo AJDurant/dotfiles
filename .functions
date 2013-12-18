@@ -1,14 +1,15 @@
-# OS specific
+# OS specific commands
+
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     echo '' &>/dev/null
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-	OPENCMD = "open"
-	COPYCMD = "pbcopy"
+	OPENCMD="open"
+	COPYCMD="pbcopy"
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-    OPENCMD = "cygstart"
-	COPYCMD = "putclip"
+    OPENCMD="cygstart"
+	COPYCMD="putclip"
 elif [[ "$OSTYPE" == "win32" ]]; then
-    OPENCMD = "start \"\""
+    OPENCMD="start \"\""
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
     echo '' &>/dev/null
 else
