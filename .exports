@@ -38,16 +38,16 @@ export PROJECT_HOME=$HOME/Dev/py
 # OS specific
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 	# Link Homebrew casks in `/Applications` rather than `~/Applications`
 	export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "win32" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        # ...
+    echo '' &>/dev/null
 else
-        # Unknown.
+    echo '' &>/dev/null
 fi

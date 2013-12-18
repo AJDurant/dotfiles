@@ -1,6 +1,6 @@
 # OS specific
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 	OPENCMD = "open"
 	COPYCMD = "pbcopy"
@@ -10,9 +10,9 @@ elif [[ "$OSTYPE" == "cygwin" ]]; then
 elif [[ "$OSTYPE" == "win32" ]]; then
     OPENCMD = "start \"\""
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        # ...
+    echo '' &>/dev/null
 else
-        # Unknown.
+    echo '' &>/dev/null
 fi
 
 # Simple calculator
@@ -272,7 +272,7 @@ function scpp() {
 
 # OS specific
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 	# Change working directory to the top-most Finder window location
 	function cdf() { # short for `cdfinder`
@@ -327,11 +327,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 		done
 	}
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "win32" ]]; then
-        # ...
+    echo '' &>/dev/null
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        # ...
+    echo '' &>/dev/null
 else
-        # Unknown.
+    echo '' &>/dev/null
 fi
