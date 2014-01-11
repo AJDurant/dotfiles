@@ -2,11 +2,11 @@
 cd "$(dirname "${BASH_SOURCE}")"
 git pull origin master
 function doItCygwin() {
-	echo "ca_directory = /usr/ssl/certs # Cygwin CA Certs directory is non standard" >> ./.wgetrc
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" \
 		--exclude ".osx" --exclude ".brew" -av --no-perms . ~
 	source ~/.bash_profile
+	echo "ca_directory = /usr/ssl/certs # Cygwin CA Certs directory is non standard" >> ~/.wgetrc
 }
 function doItMac() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
