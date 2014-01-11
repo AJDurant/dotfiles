@@ -74,3 +74,6 @@
 # http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
 [url "git@github.com:AJDurant/"]
   insteadOf = "git://github.com/AJDurant/"
+
+[push]
+	default = simple
