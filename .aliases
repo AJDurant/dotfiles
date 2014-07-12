@@ -25,10 +25,10 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Shortcuts
-alias d="cd ~/Documents/Dropbox"
+alias d="cd ~/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias p="cd ~/Dev"
+alias p="cd ~/projects"
 alias g="git"
 alias h="history"
 alias j="jobs"
@@ -122,7 +122,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 	# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
 	alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm update npm -g; npm update -g; sudo gem update'
-	
+
 	# Empty the Trash on all mounted volumes and the main HDD
 	# Also, clear Apple’s System Logs to improve shell startup speed
 	alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
@@ -134,7 +134,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	# Hide/show all desktop icons (useful when presenting)
 	alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 	alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-	
+
 	# Flush Directory Service cache
 	alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
@@ -144,7 +144,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	# Merge PDF files
 	# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
 	alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-	
+
 	# Disable Spotlight
 	alias spotoff="sudo mdutil -a -i off"
 	# Enable Spotlight
@@ -152,7 +152,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 	# PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
 	alias plistbuddy="/usr/libexec/PlistBuddy"
-	
+
 	# Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 	alias quiet="osascript -e 'set volume output muted true'"
 	alias pumpitup="osascript -e 'set volume 7'"
@@ -161,7 +161,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	# Kill all the tabs in Chrome to free up memory
 	# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 	alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-	
+
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo '' &>/dev/null
 elif [[ "$OSTYPE" == "win32" ]]; then

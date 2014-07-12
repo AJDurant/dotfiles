@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    echo '' &>/dev/null
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+	SUBL="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+    echo '' &>/dev/null
+elif [[ "$OSTYPE" == "win32" ]]; then
+    echo '' &>/dev/null
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+    echo '' &>/dev/null
+else
+    echo '' &>/dev/null
+fi
+
 cd "$(dirname "${BASH_SOURCE}")"
 git pull origin master
 function doItCygwin() {
@@ -24,6 +39,11 @@ function doIt() {
 		rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 			--exclude "README.md" --exclude "LICENSE-MIT.txt" -av --no-perms . ~
 		source ~/.bash_profile
+	fi
+	if [[] -n "$SUBL" ]]; then
+		if [[ -x "$SUBL" ]]; then
+			ln -s "${SUBL}" ~/bin/subl
+		fi
 	fi
 }
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
