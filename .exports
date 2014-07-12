@@ -1,54 +1,54 @@
-# Make st2 the default editor, or nano
-export EDITOR="subl -w"
+# Make st the default editor, or nano
+export EDITOR="subl -w";
 command -v subl >/dev/null 2>&1 || { export EDITOR="nano"; }
 
 # Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
+export HISTSIZE=32768;
+export HISTFILESIZE=$HISTSIZE;
+export HISTCONTROL=ignoredups;
 # Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help";
 
 # timestamps for bash history. www.debian-administration.org/users/rossen/weblog/1
 # saved for later analysis
-HISTTIMEFORMAT='%F %T '
-export HISTTIMEFORMAT
+HISTTIMEFORMAT='%F %T ';
+export HISTTIMEFORMAT;
 
 # Prefer English and use UTF-8
-export LANG="en_GB"
-export LC_ALL="en_GB.UTF-8"
+export LANG="en_GB.UTF-8";
+export LC_ALL="en_GB.UTF-8";
 
 # Highlight section titles in manual pages
-export LESS_TERMCAP_md="$ORANGE"
+export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page
-export MANPAGER="less -X"
+export MANPAGER="less -X";
 
 # Always enable colored `grep` output
-export GREP_OPTIONS="--color=auto"
+export GREP_OPTIONS="--color=auto";
 
 # Setup Virtual Env Wrapper
-export VIRTUALENV_PYTHON=/usr/bin/python3
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv
-export WORKON_HOME=$HOME/.virtualenvs
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
-export PIP_RESPECT_VIRTUALENV=true
-export PROJECT_HOME=$HOME/Dev/py
+export VIRTUALENV_PYTHON=/usr/bin/python3;
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3;
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv;
+export WORKON_HOME=$HOME/.virtualenvs;
+export PIP_VIRTUALENV_BASE=$WORKON_HOME;
+export PIP_RESPECT_VIRTUALENV=true;
+export PROJECT_HOME=$HOME/Dev/py;
 
 # OS specific
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    echo '' &>/dev/null
+    echo '' &>/dev/null;
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-	# Link Homebrew casks in `/Applications` rather than `~/Applications`
-	export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+    # Link Homebrew casks in `/Applications` rather than `~/Applications`
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications";
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-    echo '' &>/dev/null
+    echo '' &>/dev/null;
 elif [[ "$OSTYPE" == "win32" ]]; then
-    echo '' &>/dev/null
+    echo '' &>/dev/null;
 elif [[ "$OSTYPE" == "freebsd"* ]]; then
-    echo '' &>/dev/null
+    echo '' &>/dev/null;
 else
-    echo '' &>/dev/null
-fi
+    echo '' &>/dev/null;
+fi;
