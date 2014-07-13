@@ -43,7 +43,7 @@ function doIt() {
 			--exclude "README.md" --exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
 		source ~/.bash_profile;
 	fi
-	if [[] -n "$SUBL" ]]; then
+	if [[ -n "$SUBL" ]]; then
 		if [[ -x "$SUBL" ]]; then
 			ln -s "${SUBL}" ~/bin/subl;
 		fi;
