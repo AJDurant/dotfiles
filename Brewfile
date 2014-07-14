@@ -34,7 +34,7 @@ install ack
 install git
 install imagemagick --with-webp
 install lynx
-brew install mobile-shell
+install mobile-shell
 install nmap
 install node # This installs `npm` too using the recommended installation method
 install p7zip
