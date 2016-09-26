@@ -1,10 +1,12 @@
 BoldAsFont=no
-ForegroundColour=0,255,0
+ForegroundColour=240,240,240
 FontHeight=9
 Locale=en_GB
 Charset=UTF-8
 BellSound=yes
 BellFlash=yes
 Transparency=medium
-Term=xterm-256color
-CopyOnSelect=no
+Term=screen-256color
+CopyOnSelect=yes
+Columns=120
+Rows=45

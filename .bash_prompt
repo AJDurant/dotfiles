@@ -3,10 +3,12 @@
 # Heavily inspired by @necolas’s prompt: https://github.com/necolas/dotfiles
 # iTerm → Profiles → Text → use 13pt Monaco with 1.1 vertical spacing.
 
+# Git/SVN from https://gist.github.com/TheBrownSound/5701391
+
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
     export TERM='gnome-256color';
-elif infocmp xterm-256color >/dev/null 2>&1; then
-    export TERM='xterm-256color';
+elif infocmp screen-256color >/dev/null 2>&1; then
+    export TERM='screen-256color';
 fi;
 
 if [[ "$OSTYPE" == "freebsd"* ]]; then
@@ -21,63 +23,125 @@ else
 	BOLD=bold
 fi
 
-prompt_git() {
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# Git/Subversion prompt function
+__git_svn_ps1() {
+    local s=
+    if [[ $(svn info 2>/dev/null) ]] ; then
+        local r=`__svn_rev`
+        local b=`__svn_branch`
+        s="[$b:$r]"
+    elif [[ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]] ; then
+        s=`__prompt_git`
+    fi
+    if [ ! -z ${s} ] ; then
+        echo -n "${1}${s}"
+    else
+        return "0"
+    fi
+}
+
+# Outputs the current trunk, branch, or tag
+__svn_branch() {
+    data="$(svn info 2>/dev/null)"
+    cr=$'\r'
+    data="${data//${cr}/}"
+    url_expr=$'\nURL: *([^\n]*)'
+    root_expr=$'\nRepository Root: *([^\n]*)'
+    if [[ "${data}" =~ $url_expr ]]
+    then
+        url="${BASH_REMATCH[1]}"
+    fi
+    if [[ "${data}" =~ $root_expr ]]
+    then
+        root="${BASH_REMATCH[1]}"
+    fi
+    case "${url}${root}" in
+    "")
+        # No svn info found: don't output any text
+        return
+        ;;
+    esac
+
+    rel="${url#${root}}"          # remove repo url prefix
+    rel="${rel/branches\//}"      # remove "branches/"
+    rel="${rel/tags\//TAG:}"      # turn "tags/" into "TAG:"
+    rel="${rel/releases\//R:}"    # turn "releases/" into "R:"
+    rel="${rel/trunk/T}"          # turn "trunk" into "T"
+
+    # This collapses down any /... to remove the slash and anything after the next slash
+    slash_expr='([^/]*)/([^/]*).*'
+    if [[ "${rel}" =~ $slash_expr ]]
+    then
+        rel="${BASH_REMATCH[1]}${BASH_REMATCH[2]}"
+    fi
+    echo "${rel%% *}"   # remove anything after & including first space and put into brackets with leading space
+}
+
+# Outputs the current revision
+__svn_rev() {
+    local r=$(svn info | awk '/Revision:/ {print $2}')
+
+    if [ ! -z $SVN_SHOWDIRTYSTATE ]; then
+        local svnst flag
+        svnst=$(svn status | grep '^\s*[?ACDMR?!]')
+        [ -z "$svnst" ] && flag=*
+        r=$r$flag
+    fi
+    echo $r
+}
+
+__prompt_git() {
     local s='';
     local branchName='';
 
-    # Check if the current directory is in a Git repository.
-    if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+    # check if the current directory is in .git before running git checks
+    if [[ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]]; then
 
-        # check if the current directory is in .git before running git checks
-        if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+        # Ensure the index is up to date.
+        git update-index --really-refresh -q &>/dev/null;
 
-            # Ensure the index is up to date.
-            git update-index --really-refresh -q &>/dev/null;
-
-            # Check for uncommitted changes in the index.
-            if ! $(git diff --quiet --ignore-submodules --cached); then
-                s+='+';
-            fi;
-
-            # Check for unstaged changes.
-            if ! $(git diff-files --quiet --ignore-submodules --); then
-                s+='!';
-            fi;
-
-            # Check for untracked files.
-            if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-                s+='?';
-            fi;
-
-            # Check for stashed files.
-            if $(git rev-parse --verify refs/stash &>/dev/null); then
-                s+='$';
-            fi;
-
+        # Check for uncommitted changes in the index.
+        if ! $(git diff --quiet --ignore-submodules --cached); then
+            s+='+';
         fi;
 
-        # Get the short symbolic ref.
-        # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-        # Otherwise, just give up.
-        branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-            git rev-parse --short HEAD 2> /dev/null || \
-            echo '(unknown)')";
+        # Check for unstaged changes.
+        if ! $(git diff-files --quiet --ignore-submodules --); then
+            s+='!';
+        fi;
 
-        [ -n "${s}" ] && s=" [${s}]";
+        # Check for untracked files.
+        if [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+            s+='?';
+        fi;
 
-        echo -e "${1}${branchName}${blue}${s}";
-    else
-        return;
+        # Check for stashed files.
+        if $(git rev-parse --verify refs/stash &>/dev/null); then
+            s+='$';
+        fi;
+
     fi;
+
+    # Get the short symbolic ref.
+    # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+    # Otherwise, just give up.
+    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+        git rev-parse --short HEAD 2> /dev/null || \
+        echo '(unknown)')";
+
+    echo -e "${branchName}${blue}${s}";
 }
 
-
 if tput $SETAF 1 &> /dev/null; then
-	tput $SGR
-	bold=$(tput $BOLD)
-	reset=$(tput $SGR)
-	# Solarized colors, taken from http://git.io/solarized-colors.
-	black=$(tput $SETAF 0);
+    tput $SGR;
+    bold=$(tput $BOLD);
+    reset=$(tput $SGR);
+    # Solarized colors, taken from http://git.io/solarized-colors.
+    black=$(tput $SETAF 0);
     blue=$(tput $SETAF 33);
     cyan=$(tput $SETAF 37);
     green=$(tput $SETAF 64);
@@ -123,10 +187,11 @@ PS1+="\[${bold}\]\n"; # newline
 PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\] at ";
 PS1+="\[${hostStyle}\]\h"; # host
+PS1+="${debian_chroot:+($debian_chroot)}"; # chroot
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory
-PS1+="\$(prompt_git \"${white} on ${violet}\")"; # Git repository details
-PS1+="\n";
+PS1+="\$(__git_svn_ps1 \"${white} on ${violet}\")"; # Git/SVN details
+PS1+=$'\n';
 PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
