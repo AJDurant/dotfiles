@@ -20,7 +20,8 @@ git pull origin master;
 function doItCygwin() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" \
-		--exclude ".osx" --exclude "Brewfile" --exclude "Caskfile" -avh --no-perms . ~;
+		--exclude ".osx" --exclude "Brewfile" --exclude "Caskfile" --exclude "init/" \
+		-avh --no-perms . ~;
 	source ~/.bash_profile;
 	echo "ca_directory = /usr/ssl/certs # Cygwin CA Certs directory is non standard" >> ~/.wgetrc;
 }
@@ -41,7 +42,8 @@ function doIt() {
 	else
 		rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 			--exclude "README.md" --exclude "LICENSE-MIT.txt" \
-            --exclude ".osx" --exclude "Brewfile" --exclude "Caskfile" -avh --no-perms . ~;
+            --exclude ".osx" --exclude "Brewfile" --exclude "Caskfile" --exclude "init/" \
+            -avh --no-perms . ~;
 		source ~/.bash_profile;
 	fi
 }
