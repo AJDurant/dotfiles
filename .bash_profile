@@ -51,9 +51,6 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
 # Start SSH_Pageant
-if [ -z "$SSH_AUTH_SOCK" -a -x /usr/bin/ssh-pageant ]; then
-    eval $(/usr/bin/ssh-pageant -q);
-fi
-  trap logout HUP;
+eval $(/usr/bin/ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME")
 
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh;
