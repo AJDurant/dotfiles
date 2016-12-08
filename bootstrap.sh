@@ -22,7 +22,6 @@ function doItCygwin() {
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" \
 		--exclude ".osx" --exclude "Brewfile" --exclude "Caskfile" --exclude "init/" \
 		-avh --no-perms . ~;
-	source ~/.bash_profile;
 	echo "ca_directory = /usr/ssl/certs # Cygwin CA Certs directory is non standard" >> ~/.wgetrc;
 }
 
@@ -30,7 +29,6 @@ function doItMac() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" \
 		--exclude ".minttyrc" -avh --no-perms . ~;
-	source ~/.bash_profile;
 }
 
 function doIt() {
@@ -44,8 +42,9 @@ function doIt() {
 			--exclude "README.md" --exclude "LICENSE-MIT.txt" \
             --exclude ".osx" --exclude "Brewfile" --exclude "Caskfile" --exclude "init/" \
             -avh --no-perms . ~;
-		source ~/.bash_profile;
 	fi
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm;
+	source ~/.bash_profile;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
