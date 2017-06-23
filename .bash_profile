@@ -45,6 +45,6 @@ fi;
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
 # Start SSH_Pageant
-eval $(/usr/bin/ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME")
+[ -f /usr/bin/ssh-pageant ] && eval $(/usr/bin/ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME");
 
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh;
