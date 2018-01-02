@@ -26,7 +26,7 @@
 # set input-meta on
 # set output-meta on
 
-#$if Bash
+$if Bash
     # Don't ring bell on completion
     set bell-style none
 
@@ -79,7 +79,7 @@
     # Use Alt/Meta + Delete to delete the preceding word
     "\e[3;3~": kill-word
 
-#$endif
+$endif
 
 # MSYSTEM is emacs based
 $if mode=emacs
