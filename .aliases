@@ -122,6 +122,9 @@ alias reload="exec $SHELL -l"
 # Faster npm for Europeans
 command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu/"
 
+# Get the weather
+alias wttr="curl -s wttr.in/York | head -7"
+
 # OS Specific Aliases
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
