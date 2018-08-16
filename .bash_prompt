@@ -6,15 +6,15 @@
 # Git/SVN from https://gist.github.com/TheBrownSound/5701391
 
 if [[ "$OSTYPE" == "freebsd"* ]]; then
-	TERMC=Co
-	SETAF=AF
-	SGR=me
-	BOLD=md
+    TERMC=Co
+    SETAF=AF
+    SGR=me
+    BOLD=md
 else
-	TERMC=colors
-	SETAF=setaf
-	SGR=sgr0
-	BOLD=bold
+    TERMC=colors
+    SETAF=setaf
+    SGR=sgr0
+    BOLD=bold
 fi
 
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -175,19 +175,26 @@ else
     hostStyle="${yellow}";
 fi;
 
-# Set the terminal title to the current working directory.
-PS1="\[\033]0;\u@\h: \w\007\]";
-PS1+="\[${bold}\]\n"; # newline
-PS1+="\[${userStyle}\]\u"; # username
+# Set the terminal title to username@host: cwd
+PS1="\[\e]0;\u@\h: \w\a\]";
+# newline
+PS1+="\[${bold}\]\n";
+# username at
+PS1+="\[${userStyle}\]\u";
 PS1+="\[${white}\] at ";
-PS1+="\[${hostStyle}\]\h"; # host
-PS1+="${debian_chroot:+($debian_chroot)}"; # chroot
+# host
+PS1+="\[${hostStyle}\]\h";
+# chroot in inside
+PS1+="${debian_chroot:+($debian_chroot)}";
 PS1+="\[${white}\] in ";
-PS1+="\[${green}\]\w"; # working directory
-PS1+="\$(__git_svn_ps1 \"${white} on ${violet}\")"; # Git/SVN details
+# working directory
+PS1+="\[${green}\]\w";
+# Git/SVN details
+PS1+="\$(__git_svn_ps1 \"${white} on ${violet}\")";
 PS1+=$'\n';
-PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
+# `$` (and reset color)
+PS1+="\[${white}\]\$ \[${reset}\]";
 export PS1;
 
-PS2="\[${yellow}\]→ \[${reset}\]";
+PS2="\[${yellow}\]> \[${reset}\]";
 export PS2;
