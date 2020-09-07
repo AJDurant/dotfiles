@@ -25,9 +25,8 @@ fi
 __git_svn_ps1() {
     local s=
     if [[ $(svn info 2>/dev/null) ]] ; then
-        local r=`__svn_rev`
-        local b=`__svn_branch`
-        s="[$b:$r]"
+        local br=`__svn_branch_rev`
+        s="[$br]"
     elif [[ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]] ; then
         s=`__prompt_git`
     fi
@@ -38,29 +37,28 @@ __git_svn_ps1() {
     fi
 }
 
-# Outputs the current trunk, branch, or tag
-__svn_branch() {
+# Outputs the current trunk, branch, or tag and revision
+__svn_branch_rev() {
     data="$(svn info 2>/dev/null)"
     cr=$'\r'
     data="${data//${cr}/}"
-    url_expr=$'\nURL: *([^\n]*)'
-    root_expr=$'\nRepository Root: *([^\n]*)'
+    url_expr=$'\nRelative URL: *\^([^\n]*)'
+    rev_expr=$'\nRevision: *([^\n]*)'
     if [[ "${data}" =~ $url_expr ]]
     then
-        url="${BASH_REMATCH[1]}"
+        rel="${BASH_REMATCH[1]}"
     fi
-    if [[ "${data}" =~ $root_expr ]]
+    if [[ "${data}" =~ $rev_expr ]]
     then
-        root="${BASH_REMATCH[1]}"
+        rev="${BASH_REMATCH[1]}"
     fi
-    case "${url}${root}" in
+    case "${url}${rev}" in
     "")
         # No svn info found: don't output any text
         return
         ;;
     esac
 
-    rel="${url#${root}}"          # remove repo url prefix
     rel="${rel/branches\//}"      # remove "branches/"
     rel="${rel/tags\//TAG:}"      # turn "tags/" into "TAG:"
     rel="${rel/releases\//R:}"    # turn "releases/" into "R:"
@@ -72,20 +70,7 @@ __svn_branch() {
     then
         rel="${BASH_REMATCH[1]}${BASH_REMATCH[2]}"
     fi
-    echo "${rel%% *}"   # remove anything after & including first space and put into brackets with leading space
-}
-
-# Outputs the current revision
-__svn_rev() {
-    local r=$(svn info | awk '/Revision:/ {print $2}')
-
-    if [ ! -z $SVN_SHOWDIRTYSTATE ]; then
-        local svnst flag
-        svnst=$(svn status | grep '^\s*[?ACDMR?!]')
-        [ -z "$svnst" ] && flag=*
-        r=$r$flag
-    fi
-    echo $r
+    echo "${rel%% *}":"${rev}"   # remove anything after & including first space and put into brackets with leading space
 }
 
 __prompt_git() {
